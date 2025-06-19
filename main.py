@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse, HTMLResponse
 from pydantic import BaseModel
 from typing import Any, Dict, Generator
 from jinja2 import Environment, FileSystemLoader
 import json
 import time
+import os
 
 app = FastAPI()
 
@@ -117,3 +118,13 @@ def invoke_stream(data: StreamInvokeRequest):
 @app.get("/")
 def read_root():
     return {"message": "MCP React Code Generator with SSE support"}
+
+@app.get("/test")
+def test_page():
+    """提供 SSE 测试页面"""
+    try:
+        with open("templates/sse_test.html", "r", encoding="utf-8") as f:
+            html_content = f.read()
+        return HTMLResponse(content=html_content)
+    except FileNotFoundError:
+        return HTMLResponse(content="<h1>测试页面未找到</h1><p>请确保 templates/sse_test.html 文件存在</p>")
