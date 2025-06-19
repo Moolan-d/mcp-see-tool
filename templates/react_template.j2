@@ -1,0 +1,10 @@
+function {{ model.name or "GeneratedComponent" }}() {
+  return (
+    <div className="w-[{{ model.style.width }}px] h-[{{ model.style.height }}px] bg-[{{ model.style.backgroundColor or '#ffffff' }}] p-4 rounded shadow">
+      {% if control.props.hasAvatar %}
+      <img className="w-12 h-12 rounded-full" src="/avatar.png" alt="avatar" />
+      {% endif %}
+      <span className="ml-2 text-black text-base font-medium">组件内容</span>
+    </div>
+  )
+}
